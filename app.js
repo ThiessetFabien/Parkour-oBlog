@@ -18,8 +18,14 @@ app.get('/', (req, res) => {
   res.render('index', { articles: articlesData });
 });
 
-app.get('/article', (req, res) => {
-  res.render('articles', { articles: articlesData });
+app.get('/article/:id', (req, res) => {
+    const articleId = req.params.id;
+    const article = articlesData.find((article) => article.id === parseInt(articleId));
+
+    if (!article) {
+        return res.status(404).send('Articles non trouvé');
+    }
+    res.render('article', {article});
 });
 
 app.listen(3000, () => {
